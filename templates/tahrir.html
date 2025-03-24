@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<meta name="csrf-token" content="{{ csrf_token }}">
+<div id="content-main" class="col-12">
+    <form action="{% url 'index' %}" method="post" id="myForm" name="myForm">
+        <div class="row" style="padding:20px">
+            <div class="col-12 col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                               <textarea oninput="updateOutput()" class="form-control" name="textarea1" id="textarea1" style="height: 350px;padding: 10px;color: black;font-size: 18px;border: 5px solid #f3f6f9;resize: none;" placeholder="Matn kiriting..."></textarea>
+                  </div>
+                            <div class="col-md-6">
+                                <div id="result" style="height: 350px;padding: 10px;color: black;font-size: 18px;border: 5px solid #f3f6f9;">
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="padding-top:15px">
+                                <input class="btn btn-primary" type="button" id="submitButton_grammer" value="Tekshir">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    function updateOutput() {
+        var textarea1 = document.getElementById('textarea1');
+        var words = textarea1.value.trim().split(/\s+/);
+
+        if (words.length > 50) {
+            var slicedWords = words.slice(0, 5);
+            textarea1.value = slicedWords.join(' ');
+        }
+    }
+
+    document.getElementById("textarea1").addEventListener("input", updateOutput);
+</script>
+<script>
+    $(document).ready(function() {
+        $('#submitButton_grammer').on('click', function(event) {
+            var text = $("#textarea1").val();
+            console.log(text);
+            var csrftoken = $("meta[name=csrf-token]").attr("content");
+            $.ajax({
+                type: "POST",
+                url: "{% url 'tahrir' %}",
+                data: {
+                    'text': text
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                success: function(response) {
+                     $("#result").html(response.response);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                },
+            });
+        });
+    });
+</script>
+{% endblock %}

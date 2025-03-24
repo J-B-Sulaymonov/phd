@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<meta name="csrf-token" content="{{ csrf_token }}">
+<div id="content-main" class="col-12">
+    <form action="{% url 'index' %}" method="post" id="myForm" name="myForm">
+        <div class="row" style="padding:20px">
+            <div class="col-12 col-lg-12">
+                <div class="card">
+                    <div id="loadingAnimation"></div>
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="form-control" name="" id="matnDiv" contenteditable="true" style="color: black;font-size: 18px;height: 350px;overflow:scroll;"></div>
+                            </div>
+
+                            <div class="col-md-12" style="padding-top:15px">
+                                <input class="btn btn-primary" type="button" id="submitButton" value="Tekshir">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+    <script>
+        $('#submitButton').on('click', function(event) {
+            if ($('#togrisi').length) {
+                alert("❗ Avval xatolarni to'girlang.");
+            } else {
+                var matnDiv = $("#matnDiv");
+                var matn = matnDiv.text().replace(/‘/g, "'").replace(/’/g, "'");
+                var csrftoken = $('meta[name=csrf-token]').attr('content');
+
+                $('#loadingAnimation').show();
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'index' %}",
+                    data: {
+                        'text': matn
+                    },
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    success: function(response) {
+                        var res = response.response;
+                        var ress = JSON.parse(res);
+                        var resXato = ress.xato;
+                        var resVariant = ress.variant;
+
+                        $('#hato').text(resXato.length);
+                        var hatoSozlar = resXato;
+
+                        for (var i = 0; i < hatoSozlar.length; i++) {
+                            var hatoSoz = hatoSozlar[i];
+                            var regex = new RegExp('\\b' + hatoSoz + '\\b', 'gi');
+                            var soz = `<span class="xatodrop" id="${i}hato">
+                                <span class="toggle-button dropdown" id="${i}toggle" style="color: red;text-decoration: underline;">` + hatoSoz + `</span>
+                                <p class="dropdown-menu">
+                                    <span>&nbsp;&nbsp;O‘zgartir:</span>`;
+
+                            var variantlar = ``;
+                            var togriSozlar = resVariant[i];
+                            if (resVariant[i].length > 5) {
+                                togriSozlar = resVariant[i].slice(0, 5);
+                            }
+
+                            for (var j = 0; j < togriSozlar.length; j++) {
+                                var togrigap = togriSozlar[j];
+                                variantlar += `<button type="button" class="dropdown-item" id="togrisi" data-index="${i}" data-togri="${togrigap}" style="font-size:18px;">${togrigap}</button>`;
+                            }
+
+                            var tagi = `<button type="button" class="dropdown-item" id="ignore" data-index="${i}"><a href="#" style="color: red;margin-left:-10px;"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp; Qoldir</a></button>
+                                </p>
+                            </span>`;
+                            var obshi = soz + variantlar + tagi;
+                            matn = matn.replace(regex, obshi);
+                        }
+
+                        matnDiv.html(matn);
+                        $('#loadingAnimation').hide();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        $('#loadingAnimation').hide();
+                    },
+                });
+            }
+        });
+
+        $("#matnDiv").on("click", "#togrisi", function() {
+            var index = $(this).data("index");
+            var matnDiv = $(`#${index}hato`);
+            var togriSoz = $(this).data("togri");
+            $('#hato').text(parseInt($('#hato').text()) - 1);
+
+            if (togriSoz) {
+                matnDiv.replaceWith(togriSoz);
+                localStorage.setItem("spelling_html", $("#matnDiv").html());
+            }
+        });
+
+        $("#matnDiv").on("click", "#ignore", function() {
+            var index = $(this).data("index");
+            var matnDiv = $(`#${index}hato`);
+            var togriSoz = $(`#${index}toggle`).text();
+            $('#hato').text(parseInt($('#hato').text()) - 1);
+            if (togriSoz) {
+                matnDiv.replaceWith(togriSoz);
+                localStorage.setItem("spelling_html", $("#matnDiv").html());
+            }
+        });
+    </script>
+</div>
+{% endblock %}
