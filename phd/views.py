@@ -4,7 +4,12 @@ from django.shortcuts import render
 from phd.models import Suz_uzgartiruvchilar,UZB_affiks,Shakil_yasovchi_qushimchalar,Suzlar
 import requests
 from requests.exceptions import RequestException
-openai.api_key = "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"
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # .env faylni o'qib oladi
+
+openai.api_key = os.environ.get("open_ai_key")
 
 def imlo_api(text):
     url = "http://213.230.107.46:10006/spelling"
