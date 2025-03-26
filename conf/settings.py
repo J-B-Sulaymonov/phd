@@ -26,8 +26,9 @@ SECRET_KEY = 'django-insecure-ydtuyj+i#njyx2@qqh498s3a$(y_$)^$4$jda@rqafai_d=xpm
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
-
+from dotenv import load_dotenv
+load_dotenv()
+API_KEY = os.getenv("open_ai_key")
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'phd',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
