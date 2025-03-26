@@ -30,7 +30,7 @@ from dotenv import load_dotenv
 load_dotenv()
 API_KEY = os.getenv("open_ai_key")
 # Application definition
-
+CSRF_TRUSTED_ORIGINS = ["https://uzmorf.uz"]
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
