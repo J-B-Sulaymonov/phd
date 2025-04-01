@@ -35,7 +35,8 @@ class Shakil_yasovchi_qushimchalar(models.Model):
         verbose_name_plural = "Shakil yasovchi qo'shimchalar"
 
 class Suzlar(models.Model):
-    name = models.CharField(max_length=1000, default="")
+    name = models.CharField(max_length=1000, default="", verbose_name="Nomi")
+    muqobili = models.CharField(max_length=1000, default="", blank=True, null=True, verbose_name="Muqobillari")
 
     def __str__(self):
         return self.name
@@ -43,15 +44,112 @@ class Suzlar(models.Model):
     class Meta:
         verbose_name = "So'zlar"
         verbose_name_plural = "So'zlar"
-# class Account(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     name = models.CharField(max_length=1000, default="",  null=True,blank=True, verbose_name='Familiya Ism Sharif')
-#     img = models.ImageField(upload_to='images/user/', default="#",verbose_name='Rasm (3x4)')
-#     phone = models.CharField(max_length=20, default="", null=True,blank=True, verbose_name='Telefon')
-#     Email = models.CharField(max_length=200, default="", null=True,blank=True )
-#     id_cart = models.CharField(max_length=200, default="", null=True,blank=True, verbose_name='Id karta')
-#     online_status = models.BooleanField(default=False)
-#     created_date = models.DateTimeField(auto_now_add=True, max_length=80)
-#     updated_date = models.DateTimeField( auto_now = True, max_length=80)
-#     def __str__(self):
-#         return self.name
+
+class AtoqliSuzlar(models.Model):
+    name = models.CharField(max_length=1000, default="", verbose_name="Nomi")
+    muqobili = models.CharField(max_length=1000, default="", blank=True, null=True, verbose_name="Muqobillari")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Atoqli so'zlar"
+        verbose_name_plural = "Atoqli so'zlar"
+
+class Raqamlar(models.Model):
+    name = models.CharField(max_length=1000, default="", verbose_name="Nomi")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Raqamlar"
+        verbose_name_plural = "Raqamlar"
+
+class BuyruqSozlar(models.Model):
+    name = models.CharField(max_length=1000, default="", verbose_name="Nomi")
+    muqobili = models.CharField(max_length=1000, default="", blank=True, null=True, verbose_name="Muqobillari")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Buyruq so'zlar"
+        verbose_name_plural = "Buyruq so'zlar"
+
+class ModalSozlar(models.Model):
+    name = models.CharField(max_length=1000, default="", verbose_name="Nomi")
+    muqobili = models.CharField(max_length=1000, default="", blank=True, null=True, verbose_name="Muqobillari")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Modal so'zlar"
+        verbose_name_plural = "Modal so'zlar"
+
+class SoroqSozlar(models.Model):
+    name = models.CharField(max_length=1000, default="", verbose_name="Nomi")
+    muqobili = models.CharField(max_length=1000, default="", blank=True, null=True, verbose_name="Muqobillari")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "So'roq so'zlar"
+        verbose_name_plural = "So'roq so'zlar"
+
+class SonlarNomi(models.Model):
+    name = models.CharField(max_length=1000, default="", verbose_name="Nomi")
+    muqobili = models.CharField(max_length=1000, default="", blank=True, null=True, verbose_name="Muqobillari")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Sonlar nomi"
+        verbose_name_plural = "Sonlar nomi"
+
+class KomakchiSozlar(models.Model):
+    name = models.CharField(max_length=1000, default="", verbose_name="Nomi")
+    muqobili = models.CharField(max_length=1000, default="", blank=True, null=True, verbose_name="Muqobillari")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Ko'makchi so'zlar"
+        verbose_name_plural = "Ko'makchi so'zlar"
+
+class BoglovchiSozlar(models.Model):
+    name = models.CharField(max_length=1000, default="", verbose_name="Nomi")
+    muqobili = models.CharField(max_length=1000, default="", blank=True, null=True, verbose_name="Muqobillari")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Bog'lovchi so'zlar"
+        verbose_name_plural = "Bog'lovchi so'zlar"
+
+class UndoviSozlar(models.Model):
+    name = models.CharField(max_length=1000, default="", verbose_name="Nomi")
+    muqobili = models.CharField(max_length=1000, default="", blank=True, null=True, verbose_name="Muqobillari")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Undov so'zlar"
+        verbose_name_plural = "Undov so'zlar"
+
+class YondoshFellar(models.Model):
+    name = models.CharField(max_length=1000, default="", verbose_name="Nomi")
+    muqobili = models.CharField(max_length=1000, default="", blank=True, null=True, verbose_name="Muqobillari")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Yondosh fellar"
+        verbose_name_plural = "Yondosh fellar"
